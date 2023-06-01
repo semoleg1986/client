@@ -1,4 +1,5 @@
 import { useQuery, gql } from '@apollo/client';
+import { Product } from '../../types';
 
 const GET_PRODUCTS = gql`
   query {
@@ -11,14 +12,6 @@ const GET_PRODUCTS = gql`
     }
   }
 `;
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-}
 
 const Home = (): JSX.Element => {
   const { loading, error, data } = useQuery<{ products: Product[] }>(GET_PRODUCTS);
