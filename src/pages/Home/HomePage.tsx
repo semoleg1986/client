@@ -1,20 +1,15 @@
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Product } from '../../types';
+import { GET_PRODUCTS } from '../../GraphQL/Mutations';
+import Form from '../../components/Form';
 
-const GET_PRODUCTS = gql`
-  query {
-    products {
-      id
-      name
-      description
-      price
-      quantity
-    }
-  }
-`;
 
 const Home = (): JSX.Element => {
-  const { loading, error, data } = useQuery<{ products: Product[] }>(GET_PRODUCTS);
+  const { loading, error, data, refetch } = useQuery<{ products: Product[] }>(GET_PRODUCTS);
+
+  const updateProductList = () => {
+    refetch(); // Перезагрузка данных после добавления товара
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -26,6 +21,9 @@ const Home = (): JSX.Element => {
 
   return (
     <>
+    <div>
+      < Form updateProductList={updateProductList} />
+    </div>
       {data?.products.map((product) => (
         <div key={product.id}>
           <h2>{product.name}</h2>
