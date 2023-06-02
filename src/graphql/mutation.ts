@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const CREATE_PRODUCT_MUTATION = gql`
+export const CREATE_PRODUCT = gql`
   mutation createProduct(
     $name: String!
     $description: String!
@@ -19,14 +19,6 @@ export const CREATE_PRODUCT_MUTATION = gql`
   }
 `;
 
-export const DELETE_PRODUCT_MUTATION = gql`
-  mutation DeleteProduct($id: ID!) {
-    deleteProduct(id: $id) {
-      success
-    }
-  }
-`;
-
 
 export const GET_PRODUCTS = gql`
   query {
@@ -39,3 +31,37 @@ export const GET_PRODUCTS = gql`
     }
   }
 `;
+
+export const DELETE_PRODUCT = gql`
+mutation deleteProduct(
+  $id: ID!
+) {
+  deleteProduct(
+    id: $id
+  ) {
+    success
+  }
+}`
+
+export const EDIT_PRODUCT = gql`
+mutation updateProduct(
+  $id: ID!
+  $name: String!
+  $description: String!
+  $price: Decimal!
+  $quantity: Int!
+) {
+  updateProduct(
+    id: $id
+    name: $name
+    description: $description
+    price: $price
+    quantity: $quantity
+  ) { product {
+    id
+    name
+    description
+    price
+    quantity
+  }}
+}`
