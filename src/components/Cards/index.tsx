@@ -5,14 +5,15 @@ import { CardsStyle } from './Cards.styled';
 
 type CardsProps = {
   products: Product[];
+  onDelete: (id: string) => void;
   
 };
 
-const Cards: React.FC<CardsProps> = ({ products }) => {
+const Cards: React.FC<CardsProps> = ({ products, onDelete }) => {
     return (
       <CardsStyle>
         {products.map((product) => (
-          <Card key={product.id} product={product} />
+          <Card key={product.id} product={product} onDelete={onDelete} />
         ))}
       </CardsStyle>
     );

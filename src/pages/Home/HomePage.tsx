@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Product } from '../../types';
-import { GET_PRODUCTS } from '../../graphql/mutation';
+import { GET_PRODUCTS, DELETE_PRODUCT_MUTATION } from '../../graphql/mutation';
 import Form from '../../components/Form/Form';
 import Cards from '../../components/Cards';
 
@@ -15,9 +15,22 @@ import { Button } from '../../components/Buttons/Buttons.styled';
 const Home = (): JSX.Element => {
   const { loading, error, data, refetch } = useQuery<{ products: Product[] }>(GET_PRODUCTS);
   const [isFormOpen, setFormOpen] = useState(false);
+  const [deleteProduct] = useMutation(DELETE_PRODUCT_MUTATION);
 
   const updateProductList = () => {
     refetch();
+  };
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteProduct({
+        variables: {
+          id: id    
+        },
+      });    
+    updateProductList();
+    } catch(error){
+      console.log(error)
+    }
   };
 
   const openForm = () => {
@@ -59,7 +72,7 @@ const Home = (): JSX.Element => {
 
       {formModal}
 
-      <Cards products={data?.products || []} />
+      <Cards products={data?.products || []} onDelete={handleDelete} />
     </>
   );
 };
