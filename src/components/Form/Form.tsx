@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { CREATE_PRODUCT_MUTATION } from "../graphql/mutation";
+import { CREATE_PRODUCT_MUTATION } from "../../graphql/mutation";
 import { useMutation } from "@apollo/client";
+import { FormContainer, Input, Button } from "./Form.styled";
 
+interface FormProps {
+  updateProductList: () => void;
+}
 
-
-
-function Form({ updateProductList }) {
+function Form({ updateProductList } : FormProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [quantity, setquantity] = useState("");
+  const [quantity, setQuantity] = useState("");
 
   const [createProduct, { error }] = useMutation(CREATE_PRODUCT_MUTATION);
   const parsedQuantity = parseInt(quantity, 10);
@@ -24,43 +26,40 @@ function Form({ updateProductList }) {
           quantity: parsedQuantity,
         },
       });
-    updateProductList();
+      updateProductList();
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
-    <div>
-      <input
+    <FormContainer>
+      <Input
         type="text"
         placeholder="Name"
-        onChange={(e) => {
-            setName(e.target.value);
-        }}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
-      <input
+      <Input
         type="text"
         placeholder="Description"
-        onChange={(e) => {
-          setDescription(e.target.value);
-        }}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
-      <input
+      <Input
         type="text"
         placeholder="Price"
-        onChange={(e) => {
-          setPrice(e.target.value);
-        }}
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
       />
-      <input
+      <Input
         type="text"
         placeholder="Quantity"
-        onChange={(e) => {
-          setquantity(e.target.value);
-        }}
+        value={quantity}
+        onChange={(e) => setQuantity(e.target.value)}
       />
-      <button onClick={addProduct}>Create Product</button>
-    </div>
+      <Button onClick={addProduct}>Create Product</Button>
+    </FormContainer>
   );
 }
 
