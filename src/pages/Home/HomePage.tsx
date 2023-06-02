@@ -9,6 +9,7 @@ import { Modal, ModalContent } from '../../components/Modal/Modal.styled';
 import { Overlay } from '../../components/Overlay/Overlay.styled';
 import { CloseButton } from '../../components/Buttons/Buttons.styled';
 import { FormContainer } from '../../components/Form/Form.styled';
+import { Button } from '../../components/Form/Form.styled';
 
 
 const Home = (): JSX.Element => {
@@ -53,7 +54,7 @@ const Home = (): JSX.Element => {
   return (
     <>
       <div>
-        <button onClick={openForm}>Add Product</button>
+        <Button onClick={openForm}>Add Product</Button>
       </div>
 
       {formModal}
