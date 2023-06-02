@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Product } from '../../types';
-import { GET_PRODUCTS, DELETE_PRODUCT_MUTATION } from '../../graphql/mutation';
+import { GET_PRODUCTS } from '../../graphql/mutation';
 import Form from '../../components/Form/Form';
 import Cards from '../../components/Cards';
 
@@ -9,28 +9,16 @@ import { Modal, ModalContent } from '../../components/Modal/Modal.styled';
 import { Overlay } from '../../components/Overlay/Overlay.styled';
 import { CloseButton } from '../../components/Buttons/Buttons.styled';
 import { FormContainer } from '../../components/Form/Form.styled';
-import { Button } from '../../components/Buttons/Buttons.styled';
+import { Button } from '../../components/Form/Form.styled';
 
 
 const Home = (): JSX.Element => {
   const { loading, error, data, refetch } = useQuery<{ products: Product[] }>(GET_PRODUCTS);
   const [isFormOpen, setFormOpen] = useState(false);
-  const [deleteProduct] = useMutation(DELETE_PRODUCT_MUTATION);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const updateProductList = () => {
     refetch();
-  };
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteProduct({
-        variables: {
-          id: id    
-        },
-      });    
-    updateProductList();
-    } catch(error){
-      console.log(error)
-    }
   };
 
   const openForm = () => {
@@ -41,6 +29,11 @@ const Home = (): JSX.Element => {
     setFormOpen(false);
   };
 
+  const handleEditProduct = (product: Product | null) => {
+    setSelectedProduct(product); // Установка выбранного продукта
+    setFormOpen(true); // Открытие формы
+  };
+
   let formModal = null;
   if (isFormOpen) {
     formModal = (
@@ -49,7 +42,7 @@ const Home = (): JSX.Element => {
         <ModalContent>
           <CloseButton onClick={closeForm}>&times;</CloseButton>
           <FormContainer>
-            <Form updateProductList={updateProductList} />
+          <Form updateProductList={updateProductList} handleEditProduct={handleEditProduct} selectedProduct={selectedProduct} />
           </FormContainer>
         </ModalContent>
       </Modal>
@@ -72,7 +65,7 @@ const Home = (): JSX.Element => {
 
       {formModal}
 
-      <Cards products={data?.products || []} onDelete={handleDelete} />
+      <Cards products={data?.products || []} onEditProduct={handleEditProduct} />
     </>
   );
 };
