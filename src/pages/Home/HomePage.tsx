@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { Product } from '../../types';
 import { GET_PRODUCTS } from '../..//graphql/mutation';
 import Form from '../../components/Form';
-
+import Cards from '../../components/Cards';
 
 const Home = (): JSX.Element => {
   const { loading, error, data, refetch } = useQuery<{ products: Product[] }>(GET_PRODUCTS);
@@ -24,14 +24,7 @@ const Home = (): JSX.Element => {
     <div>
       < Form updateProductList={updateProductList} />
     </div>
-      {data?.products.map((product) => (
-        <div key={product.id}>
-          <h2>{product.name}</h2>
-          <p>{product.description}</p>
-          <p>Price: ${product.price}</p>
-          <p>Quantity: {product.quantity}</p>
-        </div>
-      ))}
+    <Cards products={data?.products || []} />
     </>
   );
 };
