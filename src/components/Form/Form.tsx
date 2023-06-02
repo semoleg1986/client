@@ -1,30 +1,49 @@
-import React, { useState } from "react";
-import { CREATE_PRODUCT_MUTATION } from "../../graphql/mutation";
+import React, { useState, useEffect } from "react";
+import { CREATE_PRODUCT, EDIT_PRODUCT } from "../../graphql/mutation";
 import { useMutation } from "@apollo/client";
-import { FormContainer, Input } from "./Form.styled";
-import { Button } from "../Buttons/Buttons.styled";
+import { FormContainer, Input, Button } from "./Form.styled";
+import { Product } from "../../types";
 
 interface FormProps {
   updateProductList: () => void;
+  handleEditProduct: (product: Product | null) => void;
+  selectedProduct: Product | null
 }
 
-function Form({ updateProductList } : FormProps) {
+function Form({ updateProductList, handleEditProduct, selectedProduct } : FormProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
 
-  const [createProduct, { error }] = useMutation(CREATE_PRODUCT_MUTATION);
+  const [createProduct, { error }] = useMutation(CREATE_PRODUCT);
+  const [editProduct] = useMutation(EDIT_PRODUCT)
+
   const parsedQuantity = parseInt(quantity, 10);
-  const clearForm = () => {
-    setName('');
-    setDescription('');
-    setPrice('');
-    setQuantity('');
-  };
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setName(selectedProduct.name);
+      setDescription(selectedProduct.description);
+      setPrice(selectedProduct.price.toString());
+      setQuantity(selectedProduct.quantity.toString());
+    }
+  }, [selectedProduct]);
 
   const addProduct = async () => {
     try {
+      if(selectedProduct) {
+      await editProduct({
+        variables: {
+          id: selectedProduct.id,
+          name: name,
+          description: description,
+          price: price,
+          quantity: parsedQuantity,
+        },
+      });
+      handleEditProduct(null);
+    } else {
       await createProduct({
         variables: {
           name: name,
@@ -33,8 +52,12 @@ function Form({ updateProductList } : FormProps) {
           quantity: parsedQuantity,
         },
       });
+    }
       updateProductList();
-      clearForm();
+      setName("");
+      setDescription("");
+      setPrice("");
+      setQuantity("");
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +89,7 @@ function Form({ updateProductList } : FormProps) {
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}
       />
-      <Button onClick={addProduct}>Create Product</Button>
+      <Button onClick={addProduct}>{selectedProduct ? "Update Product" : "Add product"}</Button>
     </FormContainer>
   );
 }
