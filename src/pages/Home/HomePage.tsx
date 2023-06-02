@@ -9,7 +9,7 @@ import { Modal, ModalContent } from '../../components/Modal/Modal.styled';
 import { Overlay } from '../../components/Overlay/Overlay.styled';
 import { CloseButton } from '../../components/Buttons/Buttons.styled';
 import { FormContainer } from '../../components/Form/Form.styled';
-import { Button } from '../../components/Form/Form.styled';
+import { Button } from '../../components/Buttons/Buttons.styled';
 
 
 const Home = (): JSX.Element => {

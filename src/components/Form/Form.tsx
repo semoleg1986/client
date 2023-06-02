@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { CREATE_PRODUCT_MUTATION } from "../../graphql/mutation";
 import { useMutation } from "@apollo/client";
-import { FormContainer, Input, Button } from "./Form.styled";
+import { FormContainer, Input } from "./Form.styled";
+import { Button } from "../Buttons/Buttons.styled";
 
 interface FormProps {
   updateProductList: () => void;
@@ -15,6 +16,12 @@ function Form({ updateProductList } : FormProps) {
 
   const [createProduct, { error }] = useMutation(CREATE_PRODUCT_MUTATION);
   const parsedQuantity = parseInt(quantity, 10);
+  const clearForm = () => {
+    setName('');
+    setDescription('');
+    setPrice('');
+    setQuantity('');
+  };
 
   const addProduct = async () => {
     try {
@@ -27,6 +34,7 @@ function Form({ updateProductList } : FormProps) {
         },
       });
       updateProductList();
+      clearForm();
     } catch (error) {
       console.log(error);
     }

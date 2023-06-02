@@ -19,6 +19,11 @@ export const CREATE_PRODUCT_MUTATION = gql`
   }
 `;
 
+export const DELETE_PRODUCT_MUTATION = gql`
+  mutation DeleteProduct($id: ID!) {
+    deleteProduct(id: $id)
+  }
+`;
 
 export const GET_PRODUCTS = gql`
   query {

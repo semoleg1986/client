@@ -5,6 +5,7 @@ import { CardsStyle } from './Cards.styled';
 
 type CardsProps = {
   products: Product[];
+  
 };
 
 const Cards: React.FC<CardsProps> = ({ products }) => {
