@@ -6,10 +6,11 @@ import { DELETE_PRODUCT, EDIT_PRODUCT } from "../../graphql/mutation";
 
 type CardProps = {
   product: Product;
+  updateProductList: () => void;
   onEditProduct: (product: Product) => void;
 };
 
-const Card: React.FC<CardProps> = ({ product, onEditProduct  }) => {
+const Card: React.FC<CardProps> = ({ product, onEditProduct, updateProductList  }) => {
 
   const [deleteProduct] = useMutation(DELETE_PRODUCT)
   const handleDeleteProduct = async () => {
@@ -19,6 +20,7 @@ const Card: React.FC<CardProps> = ({ product, onEditProduct  }) => {
           id: product.id,
         }
       });
+      updateProductList();
       console.log("Product deleted")
     } catch (error) {
       console.error("Error deleting product")

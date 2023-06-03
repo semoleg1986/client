@@ -43,6 +43,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
         },
       });
       handleEditProduct(null);
+      console.log("Product updated succesfully");
     } else {
       await createProduct({
         variables: {
@@ -54,6 +55,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
       });
     }
       updateProductList();
+      console.log("Product added succesfully")
       setName("");
       setDescription("");
       setPrice("");

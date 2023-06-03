@@ -19,6 +19,7 @@ const Home = (): JSX.Element => {
 
   const updateProductList = () => {
     refetch();
+    setFormOpen(false);
   };
 
   const openForm = () => {
@@ -27,6 +28,11 @@ const Home = (): JSX.Element => {
 
   const closeForm = () => {
     setFormOpen(false);
+    clearForm();
+  };
+
+  const clearForm = () => {
+    setSelectedProduct(null);
   };
 
   const handleEditProduct = (product: Product | null) => {
@@ -65,7 +71,7 @@ const Home = (): JSX.Element => {
 
       {formModal}
 
-      <Cards products={data?.products || []} onEditProduct={handleEditProduct} />
+      <Cards products={data?.products || []} onEditProduct={handleEditProduct} updateProductList={updateProductList}  />
     </>
   );
 };
