@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
+import Stock from './pages/Stock';
 import NotFoundPage from './pages/404/NotFoundPage';
 import Layout from './components/Layout';
 import { ApolloProvider } from '@apollo/client';
@@ -17,7 +18,7 @@ const App = () => {
           element: <Home />
         },{
           path: STOCK_PAGE,
-          element: <NotFoundPage />,
+          element: <Stock />,
         },{
           path: NOT_FOUND_PAGE,
           element: <NotFoundPage />,
