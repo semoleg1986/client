@@ -18,6 +18,8 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [category, setCategory] = useState("");
+
 
   const [createProduct, { error }] = useMutation(CREATE_PRODUCT);
   const [editProduct] = useMutation(EDIT_PRODUCT)
@@ -30,6 +32,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
       setDescription(selectedProduct.description);
       setPrice(selectedProduct.price.toString());
       setQuantity(selectedProduct.quantity.toString());
+      setCategory(selectedProduct.category.name.toString());
     }
   }, [selectedProduct]);
 
@@ -43,6 +46,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
           description: description,
           price: price,
           quantity: parsedQuantity,
+          category: category,
         },
       });
       handleEditProduct(null);
@@ -55,6 +59,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
           description: description,
           price: price,
           quantity: parsedQuantity,
+          category: category,
         },
       });
       toast.success("Product added succesfully", { autoClose: 2000, toastId: "success-toast" });
@@ -96,6 +101,12 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
         placeholder="Quantity"
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}
+      />
+      <Input
+        type="text"
+        placeholder="Category"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
       />
       <Button onClick={addProduct}>{selectedProduct ? "Update Product" : "Add product"}</Button>
     </FormContainer>

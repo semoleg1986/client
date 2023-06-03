@@ -20,6 +20,8 @@ export const CREATE_PRODUCT = gql`
 `;
 
 
+
+
 export const GET_PRODUCTS = gql`
   query {
     products {
@@ -28,6 +30,9 @@ export const GET_PRODUCTS = gql`
       description
       price
       quantity
+      category{
+        name
+      }
     }
   }
 `;

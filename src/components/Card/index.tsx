@@ -41,6 +41,7 @@ const Card: React.FC<CardProps> = ({ product, onEditProduct, updateProductList  
       <p>{product.description}</p>
       <p>Price: ${product.price}</p>
       <p>Quantity: {product.quantity}</p>
+      <p>Category: {product.category.name}</p>
 
       <DeleteButton onClick={handleDeleteProduct}>DELETE</DeleteButton>
       <EditButton onClick={handleEditProduct}>EDIT</EditButton>
