@@ -22,3 +22,13 @@ export const DeleteButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
 `;
+
+export const EditButton = styled.button`
+  background-color: lightgreen;
+  margin: 5px;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
