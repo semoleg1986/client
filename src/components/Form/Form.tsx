@@ -46,7 +46,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
         },
       });
       handleEditProduct(null);
-      toast.success("Product updated succesfully", { autoClose: 2000, toastId: "success-toast" });
+      toast.success("Product updated succesfully");
       console.log("Product updated succesfully");
     } else {
       await createProduct({
@@ -61,7 +61,6 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
       console.log("Product added succesfully")
     }
       updateProductList();
-      // console.log("Product added succesfully")
       setName("");
       setDescription("");
       setPrice("");
@@ -100,7 +99,6 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
       />
       <Button onClick={addProduct}>{selectedProduct ? "Update Product" : "Add product"}</Button>
     </FormContainer>
-    <ToastContainer />
     </div>
   );
 }

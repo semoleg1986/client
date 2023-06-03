@@ -4,7 +4,7 @@ import { Product } from '../../types';
 import { GET_PRODUCTS } from '../../graphql/mutation';
 import Form from '../../components/Form/Form';
 import Cards from '../../components/Cards';
-
+import { ToastContainer } from 'react-toastify';
 import { Modal, ModalContent } from '../../components/Modal/Modal.styled';
 import { Overlay } from '../../components/Overlay/Overlay.styled';
 import { CloseButton } from '../../components/Buttons/Buttons.styled';
@@ -66,6 +66,7 @@ const Home = (): JSX.Element => {
   return (
     <>
       <div>
+        <ToastContainer />
         <Button onClick={openForm}>Add Product</Button>
       </div>
 

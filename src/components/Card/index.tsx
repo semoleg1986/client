@@ -45,7 +45,7 @@ const Card: React.FC<CardProps> = ({ product, onEditProduct, updateProductList  
       <button className="delete-product-button" onClick={handleDeleteProduct}>🗑</button>
       <button className="edit-product-button" onClick={handleEditProduct}>✎</button>
     </CardStyle>
-    <ToastContainer />
+    
     </div>
   );
 };
