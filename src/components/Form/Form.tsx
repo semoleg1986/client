@@ -3,6 +3,9 @@ import { CREATE_PRODUCT, EDIT_PRODUCT } from "../../graphql/mutation";
 import { useMutation } from "@apollo/client";
 import { FormContainer, Input, Button } from "./Form.styled";
 import { Product } from "../../types";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 interface FormProps {
   updateProductList: () => void;
@@ -43,6 +46,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
         },
       });
       handleEditProduct(null);
+      toast.success("Product updated succesfully", { autoClose: 2000, toastId: "success-toast" });
       console.log("Product updated succesfully");
     } else {
       await createProduct({
@@ -53,9 +57,11 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
           quantity: parsedQuantity,
         },
       });
+      toast.success("Product added succesfully", { autoClose: 2000, toastId: "success-toast" });
+      console.log("Product added succesfully")
     }
       updateProductList();
-      console.log("Product added succesfully")
+      // console.log("Product added succesfully")
       setName("");
       setDescription("");
       setPrice("");
@@ -66,6 +72,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
   };
 
   return (
+    <div>
     <FormContainer>
       <Input
         type="text"
@@ -93,6 +100,8 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
       />
       <Button onClick={addProduct}>{selectedProduct ? "Update Product" : "Add product"}</Button>
     </FormContainer>
+    <ToastContainer />
+    </div>
   );
 }
 

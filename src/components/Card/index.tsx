@@ -3,6 +3,8 @@ import { Product } from '../../types';
 import { CardStyle } from './Card.styled';
 import { useMutation } from "@apollo/client";
 import { DELETE_PRODUCT, EDIT_PRODUCT } from "../../graphql/mutation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type CardProps = {
   product: Product;
@@ -20,10 +22,12 @@ const Card: React.FC<CardProps> = ({ product, onEditProduct, updateProductList  
           id: product.id,
         }
       });
+      toast.success("Product deleted", { autoClose: 2000, toastId: "success-toast" });
       updateProductList();
-      console.log("Product deleted")
+      // console.log("Product deleted")
     } catch (error) {
-      console.error("Error deleting product")
+      toast.error("Error deleting product", { autoClose: 2000, toastId: "error-toast" });
+      // console.error("Error deleting product")
     }
   };
 
@@ -32,6 +36,7 @@ const Card: React.FC<CardProps> = ({ product, onEditProduct, updateProductList  
   };
 
   return (
+    <div>
     <CardStyle key={product.id}>
       <h5>{product.name}</h5>
       <p>{product.description}</p>
@@ -40,6 +45,8 @@ const Card: React.FC<CardProps> = ({ product, onEditProduct, updateProductList  
       <button className="delete-product-button" onClick={handleDeleteProduct}>🗑</button>
       <button className="edit-product-button" onClick={handleEditProduct}>✎</button>
     </CardStyle>
+    <ToastContainer />
+    </div>
   );
 };
 
