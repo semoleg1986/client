@@ -2,8 +2,8 @@ import React from 'react'
 import { Product } from '../../types';
 import { CardStyle } from './Card.styled';
 import { useMutation } from "@apollo/client";
-import { DELETE_PRODUCT, EDIT_PRODUCT } from "../../graphql/mutation";
-import { ToastContainer, toast } from 'react-toastify';
+import { DELETE_PRODUCT } from "../../graphql/mutation";
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 type CardProps = {
@@ -24,10 +24,8 @@ const Card: React.FC<CardProps> = ({ product, onEditProduct, updateProductList  
       });
       toast.success("Product deleted", { autoClose: 2000, toastId: "success-toast" });
       updateProductList();
-      // console.log("Product deleted")
     } catch (error) {
       toast.error("Error deleting product", { autoClose: 2000, toastId: "error-toast" });
-      // console.error("Error deleting product")
     }
   };
 
@@ -42,6 +40,7 @@ const Card: React.FC<CardProps> = ({ product, onEditProduct, updateProductList  
       <p>{product.description}</p>
       <p>Price: ${product.price}</p>
       <p>Quantity: {product.quantity}</p>
+      
       <button className="delete-product-button" onClick={handleDeleteProduct}>🗑</button>
       <button className="edit-product-button" onClick={handleEditProduct}>✎</button>
     </CardStyle>

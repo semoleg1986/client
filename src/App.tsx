@@ -4,7 +4,7 @@ import NotFoundPage from './pages/404/NotFoundPage';
 import Layout from './components/Layout';
 import { ApolloProvider } from '@apollo/client';
 import client from './graphql/client';
-import { ROOT_PAGE, NOT_FOUND_PAGE, CART_PAGE } from './routes';
+import { ROOT_PAGE, NOT_FOUND_PAGE, STOCK_PAGE } from './routes';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -16,7 +16,7 @@ const App = () => {
           index: true,
           element: <Home />
         },{
-          path: CART_PAGE,
+          path: STOCK_PAGE,
           element: <NotFoundPage />,
         },{
           path: NOT_FOUND_PAGE,
