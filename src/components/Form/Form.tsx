@@ -59,7 +59,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
           description: description,
           price: price,
           quantity: parsedQuantity,
-          category: category,
+          categoryId: category,
         },
       });
       toast.success("Product added succesfully", { autoClose: 2000, toastId: "success-toast" });

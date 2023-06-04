@@ -6,12 +6,14 @@ export const CREATE_PRODUCT = gql`
     $description: String!
     $price: Decimal!
     $quantity: Int!
+    $categoryId: ID!
   ) {
     createProduct(
         name: $name
         description: $description
         price: $price
         quantity: $quantity
+        categoryId: $categoryId
     ) { product {
         id
     }
