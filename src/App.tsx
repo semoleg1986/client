@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
+import Stock from './pages/Stock';
 import NotFoundPage from './pages/404/NotFoundPage';
 import Layout from './components/Layout';
 import { ApolloProvider } from '@apollo/client';
 import client from './graphql/client';
-import { ROOT_PAGE, FORM_PAGE, NOT_FOUND_PAGE } from './routes';
+import { ROOT_PAGE, NOT_FOUND_PAGE, STOCK_PAGE } from './routes';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -15,6 +16,9 @@ const App = () => {
         {
           index: true,
           element: <Home />
+        },{
+          path: STOCK_PAGE,
+          element: <Stock />,
         },{
           path: NOT_FOUND_PAGE,
           element: <NotFoundPage />,

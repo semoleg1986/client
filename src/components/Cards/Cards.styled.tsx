@@ -5,5 +5,4 @@ export const CardsStyle = styled.div`
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-gap: 1rem;
     animation: fade-in 1s;
-  }
 `
