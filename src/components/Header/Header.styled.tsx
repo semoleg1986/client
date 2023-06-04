@@ -17,11 +17,9 @@ export const CustomNavLink = styled(NavLink)`
 
   &:hover {
     color: lightgray;
-    font-weight: bold;
   }
 
   &.active {
     color: red;
-    font-weight: bold;
   }
 `;

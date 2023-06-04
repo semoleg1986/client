@@ -8,7 +8,6 @@ import { CardStyle } from '../../components/Card/Card.styled';
 import { addToCart } from '../../store/cartSlice';
 import { Button } from '../../components/Form/Form.styled';
 import { CartWrapper } from '../../components/Cart/Cart.styled';
-import { toggleCart } from '../../store/cartState';
 import { RootState } from '../../store';
 
 const Stock = () => {
@@ -18,9 +17,6 @@ const Stock = () => {
 
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart({ product: product }));
-  };
-  const handleToggleCart = () => {
-    dispatch(toggleCart());
   };
 
   return (
@@ -40,9 +36,6 @@ const Stock = () => {
       <CartWrapper isVisible={isCartVisible}>
         <Cart />
       </CartWrapper>
-
-      <Button onClick={handleToggleCart}>{isCartVisible ? 'Hide Cart' : 'Show Cart'}</Button>
-
     </>
   );
 };
