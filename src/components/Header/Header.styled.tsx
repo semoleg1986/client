@@ -40,7 +40,6 @@ export const CartButton = styled.button`
   p {
 
     min-width: 20px;
-    border: 1px solid white;
     background-color: white;
     border-radius: 20px;
     margin-top: -15px;
