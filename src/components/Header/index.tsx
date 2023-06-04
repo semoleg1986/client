@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { ROOT_PAGE, STOCK_PAGE } from '../../routes';
 import { HeaderStyled, CustomNavLink } from './Header.styled';
-import { Button } from '../../components/Form/Form.styled';
+import { CartButton } from './Header.styled';
 import { toggleCart } from '../../store/cartState';
 
 const Header = () => {
@@ -19,7 +19,10 @@ const Header = () => {
     <HeaderStyled>
       <CustomNavLink to={ROOT_PAGE}>Home</CustomNavLink>
       <CustomNavLink to={STOCK_PAGE}>Stock</CustomNavLink>
-      <Button onClick={handleToggleCart}>{getTotalQuantity()}</Button>
+      <CartButton onClick={handleToggleCart}>
+          <i>&#128722;</i>
+          <p>{getTotalQuantity()}</p>
+      </CartButton>
     </HeaderStyled>
   );
 };

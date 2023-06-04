@@ -23,3 +23,27 @@ export const CustomNavLink = styled(NavLink)`
     color: red;
   }
 `;
+
+export const CartButton = styled.button`
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+
+  i {
+    z-index: 100;
+  }
+  p {
+
+    min-width: 20px;
+    border: 1px solid white;
+    background-color: white;
+    border-radius: 20px;
+    margin-top: -15px;
+    margin-left: -5px;
+  }
+`;
