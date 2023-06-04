@@ -4,6 +4,7 @@ import { Product } from '../types';
 interface CartItem {
   product: Product;
   quantity: number;
+  price: number;
 }
 
 const cartSlice = createSlice({
@@ -15,8 +16,9 @@ const cartSlice = createSlice({
       const existingItem = state.find((item) => item.product.id === product.id);
       if (existingItem) {
         existingItem.quantity++;
+        existingItem.price += product.price;
       } else {
-        state.push({ product, quantity: 1 });
+        state.push({ product, quantity: 1, price: product.price });
       }
     },
     removeFromCart: (state, action: PayloadAction<{ productId: string }>) => {
@@ -26,6 +28,7 @@ const cartSlice = createSlice({
         const existingItem = state[existingItemIndex];
         if (existingItem.quantity > 1) {
           existingItem.quantity--;
+          existingItem.price -= existingItem.product.price;
         } else {
           state.splice(existingItemIndex, 1);
         }

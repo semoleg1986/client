@@ -17,7 +17,7 @@ const Header = () => {
       <CustomNavLink to={ROOT_PAGE}>Home</CustomNavLink>
       <CustomNavLink to={STOCK_PAGE}>Stock</CustomNavLink>
       <Button onClick={handleToggleCart}>{isCartVisible ? 'Hide Cart' : 'Show Cart'}</Button>
-      <span>Cart Items: {cartItems.length}</span>
+      <span>Cart Items{cartItems.length}</span>
     </HeaderStyled>
   );
 };
