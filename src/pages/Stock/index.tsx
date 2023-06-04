@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client';
 import { useDispatch, useSelector } from 'react-redux';
-
 import Cart from '../../components/Cart';
 import { Product } from '../../types';
 import { GET_PRODUCTS } from '../../graphql/mutation';
@@ -8,14 +7,22 @@ import { CardsStyle } from '../../components/Cards/Cards.styled';
 import { CardStyle } from '../../components/Card/Card.styled';
 import { addToCart } from '../../store/cartSlice';
 import { Button } from '../../components/Form/Form.styled';
+import { CartWrapper } from '../../components/Cart/Cart.styled';
+import { toggleCart } from '../../store/cartState';
+import { RootState } from '../../store';
 
 const Stock = () => {
-  const { loading, error, data, refetch } = useQuery<{ products: Product[] }>(GET_PRODUCTS);
+  const { data } = useQuery<{ products: Product[] }>(GET_PRODUCTS);
   const dispatch = useDispatch();
+  const isCartVisible = useSelector((state: RootState) => state.cartstate.isVisible);
 
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart({ product: product }));
   };
+  const handleToggleCart = () => {
+    dispatch(toggleCart());
+  };
+
   return (
     <>
       <CardsStyle>
@@ -29,7 +36,13 @@ const Stock = () => {
           </CardStyle>
         ))}
       </CardsStyle>
-      <Cart />
+
+      <CartWrapper isVisible={isCartVisible}>
+        <Cart />
+      </CartWrapper>
+
+      <Button onClick={handleToggleCart}>{isCartVisible ? 'Hide Cart' : 'Show Cart'}</Button>
+
     </>
   );
 };
