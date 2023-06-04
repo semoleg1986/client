@@ -19,8 +19,7 @@ const Header = () => {
     <HeaderStyled>
       <CustomNavLink to={ROOT_PAGE}>Home</CustomNavLink>
       <CustomNavLink to={STOCK_PAGE}>Stock</CustomNavLink>
-      <Button onClick={handleToggleCart}>{isCartVisible ? 'Hide Cart' : 'Show Cart'}</Button>
-      <span>{getTotalQuantity()}</span>
+      <Button onClick={handleToggleCart}>{getTotalQuantity()}</Button>
     </HeaderStyled>
   );
 };

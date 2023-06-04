@@ -6,6 +6,8 @@ import { Product } from '../../types';
 import { addToCart, removeFromCart } from '../../store/cartSlice';
 import { Dispatch } from 'redux';
 import { ButtonP, CartTable, TableBody, TableCell, TableHead, TableHeader, TableRow, TotalCell, TotalRow } from './Cart.styled';
+import { toggleCart } from '../../store/cartState';
+import { Button } from '../Form/Form.styled';
 
 const Cart = () => {
   const cartItems = useSelector((state: RootState) => state.cart);
@@ -20,6 +22,10 @@ const Cart = () => {
 
   const getTotalCost = () => {
     return cartItems.reduce((total, item) => total + item.quantity * item.product.price, 0);
+  };
+
+  const handleToggleCart = () => {
+    dispatch(toggleCart());
   };
 
   return (
@@ -60,6 +66,7 @@ const Cart = () => {
         </tfoot>
       </CartTable>
     )}
+    <Button onClick={handleToggleCart}>Exit</Button>
   </div>
   );
 };
