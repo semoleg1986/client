@@ -146,7 +146,9 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
             <Button onClick={() => { addCategory(); updateCategoryList(); }}>Add Category</Button>
           </>
         )}
-      <Button onClick={addProduct}>{selectedProduct ? "Update Product" : "Add product"}</Button>
+        {category !=="newCategory" && (
+          <Button onClick={addProduct}>{selectedProduct ? "Update Product" : "Add product"}</Button>
+        )}
     </FormContainer>
     </div>
   );
