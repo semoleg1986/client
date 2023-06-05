@@ -108,7 +108,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
       <Select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">Select category</option>
           {categories.map((category: { id: string, name: string }) => (
-            <option key={category.id} value={category.id}>
+            <option key={category.id} value={category.name}>
               {category.name}
             </option>
           ))}
