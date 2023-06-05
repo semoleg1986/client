@@ -71,7 +71,7 @@ mutation updateProduct(
     price
     quantity
   }}
-}`
+}`;
 
 export const GET_CATEGORIES = gql`
 query {
@@ -81,3 +81,15 @@ query {
   }
 }
 `;
+
+export const CREATE_CATEGORY = gql`
+mutation createCategory(
+  $name: String!
+  ){
+  createCategory(
+  name: $name
+  ) { category {
+    name
+  }
+ }
+}`

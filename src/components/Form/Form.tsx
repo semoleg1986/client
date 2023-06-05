@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CREATE_PRODUCT, EDIT_PRODUCT, GET_CATEGORIES } from "../../graphql/mutation";
+import { CREATE_PRODUCT, EDIT_PRODUCT, GET_CATEGORIES,CREATE_CATEGORY } from "../../graphql/mutation";
 import { useMutation, useQuery } from "@apollo/client";
 import { FormContainer, Input, Button, Select } from "./Form.styled";
 import { Product } from "../../types";
@@ -19,11 +19,13 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState<string>("");
+  const [newCategory, setNewCategory] = useState("");
 
-  const { data } = useQuery(GET_CATEGORIES);
+  const { data, refetch } = useQuery(GET_CATEGORIES);
 
   const [createProduct, { error }] = useMutation(CREATE_PRODUCT);
-  const [editProduct] = useMutation(EDIT_PRODUCT)
+  const [editProduct] = useMutation(EDIT_PRODUCT);
+  const [createCategory] = useMutation (CREATE_CATEGORY);
 
   const parsedQuantity = parseInt(quantity, 10);
 
@@ -78,6 +80,25 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
     }
   };
 
+  const updateCategoryList = () => {
+    refetch();
+  }
+
+  const addCategory = async () => {
+    try {
+      const response = await createCategory({
+        variables: {
+          name: newCategory,
+        },
+      });
+      const createdCategory = response.data.createCategory.category;
+      setCategory(createdCategory.id);
+      toast.success("Category added succesfully");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
     <FormContainer>
@@ -107,12 +128,24 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
       />
       <Select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">Select category</option>
+          <option value="newCategory">Добавить новую категорию</option>
           {categories.map((category: { id: string, name: string }) => (
             <option key={category.id} value={category.name}>
               {category.name}
             </option>
           ))}
         </Select>
+        {category === "newCategory" && (
+          <>
+            <Input
+              type="text"
+              placeholder="New Category"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+            />
+            <Button onClick={() => { addCategory(); updateCategoryList(); }}>Add Category</Button>
+          </>
+        )}
       <Button onClick={addProduct}>{selectedProduct ? "Update Product" : "Add product"}</Button>
     </FormContainer>
     </div>

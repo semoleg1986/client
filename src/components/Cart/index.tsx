@@ -75,7 +75,7 @@ const Cart = () => {
     )}
     <Button onClick={handleToggleCart}>Exit</Button>
     {cartItems.length > 0 && (
-      <button onClick={handleCheckout}>Checkout</button>
+      <Button onClick={handleCheckout}>Checkout</Button>
     )}
   </div>
   );
