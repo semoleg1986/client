@@ -8,10 +8,12 @@ import { Dispatch } from 'redux';
 import { ButtonP, CartTable, TableBody, TableCell, TableHead, TableHeader, TableRow, TotalCell, TotalRow } from './Cart.styled';
 import { toggleCart } from '../../store/cartState';
 import { Button } from '../Form/Form.styled';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const cartItems = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch<Dispatch>();
+  const navigate = useNavigate();
 
   const handleRemoveFromCart = (productId: string) => {
     dispatch(removeFromCart({ productId }));
@@ -27,6 +29,11 @@ const Cart = () => {
   const handleToggleCart = () => {
     dispatch(toggleCart());
   };
+
+  const handleCheckout = () => {
+    dispatch(toggleCart());
+    navigate('/order');
+  }
 
   return (
     <div>
@@ -67,6 +74,9 @@ const Cart = () => {
       </CartTable>
     )}
     <Button onClick={handleToggleCart}>Exit</Button>
+    {cartItems.length > 0 && (
+      <button onClick={handleCheckout}>Checkout</button>
+    )}
   </div>
   );
 };
