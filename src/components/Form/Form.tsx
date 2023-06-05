@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { CREATE_PRODUCT, EDIT_PRODUCT } from "../../graphql/mutation";
-import { useMutation } from "@apollo/client";
-import { FormContainer, Input, Button } from "./Form.styled";
+import { CREATE_PRODUCT, EDIT_PRODUCT, GET_CATEGORIES } from "../../graphql/mutation";
+import { useMutation, useQuery } from "@apollo/client";
+import { FormContainer, Input, Button, Select } from "./Form.styled";
 import { Product } from "../../types";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -18,8 +18,9 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<string>("");
 
+  const { data } = useQuery(GET_CATEGORIES);
 
   const [createProduct, { error }] = useMutation(CREATE_PRODUCT);
   const [editProduct] = useMutation(EDIT_PRODUCT)
@@ -35,6 +36,8 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
       setCategory(selectedProduct.category.name.toString());
     }
   }, [selectedProduct]);
+
+  const categories = data?.categories || [];
 
   const addProduct = async () => {
     try {
@@ -102,12 +105,14 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}
       />
-      <Input
-        type="text"
-        placeholder="Category"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-      />
+      <Select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Select category</option>
+          {categories.map((category: { id: string, name: string }) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </Select>
       <Button onClick={addProduct}>{selectedProduct ? "Update Product" : "Add product"}</Button>
     </FormContainer>
     </div>

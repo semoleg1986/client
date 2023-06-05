@@ -12,6 +12,11 @@ export const Input = styled.input`
   padding: 5px;
 `;
 
+export const Select = styled.select`
+  margin-bottom: 10px;
+  padding: 5px;
+`;
+
 export const Button = styled.button`
   padding: 5px 10px;
   background-color: #4caf50;

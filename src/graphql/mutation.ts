@@ -72,3 +72,12 @@ mutation updateProduct(
     quantity
   }}
 }`
+
+export const GET_CATEGORIES = gql`
+query {
+  categories {
+    id
+    name
+  }
+}
+`;
