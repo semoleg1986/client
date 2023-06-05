@@ -130,7 +130,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
           <option value="">Select category</option>
           <option value="newCategory">Добавить новую категорию</option>
           {categories.map((category: { id: string, name: string }) => (
-            <option key={category.id} value={category.name}>
+            <option key={category.id} value={category.id}>
               {category.name}
             </option>
           ))}
