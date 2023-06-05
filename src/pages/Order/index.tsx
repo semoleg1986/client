@@ -1,9 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { ButtonP, CartTable, TableBody, TableCell, TableHead, TableHeader, TableRow, TotalCell, TotalRow } from '../../components/Cart/Cart.styled';
+import { CartTable, TableBody, TableCell, TableHead, TableHeader, TableRow, TotalCell, TotalRow } from '../../components/Cart/Cart.styled';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 
 const Order = () => {
     const cartItems = useSelector((state: RootState) => state.cart);
