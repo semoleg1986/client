@@ -10,7 +10,7 @@ import { toggleCart } from '../../store/cartState';
 import { Button } from '../Form/Form.styled';
 import { useNavigate } from 'react-router-dom';
 
-const Cart = () => {
+const Cart = ( {show = true}) => {
   const cartItems = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch<Dispatch>();
   const navigate = useNavigate();
@@ -37,8 +37,8 @@ const Cart = () => {
 
   return (
     <div>
-    <h2>Cart</h2>
-    {cartItems.length === 0 ? (
+    {show && <h2>Cart</h2>}
+    {show && cartItems.length === 0 ? (
       <p>Cart is empty</p>
     ) : (
       <CartTable>
@@ -55,9 +55,9 @@ const Cart = () => {
             <TableRow key={item.product.id}>
               <TableCell>{item.product.name}</TableCell>
               <TableCell>
-                <ButtonP onClick={() => handleRemoveFromCart(item.product.id)}>-</ButtonP>
+                {show && <ButtonP onClick={() => handleRemoveFromCart(item.product.id)}>-</ButtonP>}
                 {item.quantity}
-                <ButtonP onClick={() => handleAddToCart(item.product)}>+</ButtonP>
+                {show && <ButtonP onClick={() => handleAddToCart(item.product)}>+</ButtonP>}
               </TableCell>
               <TableCell>${item.product.price}</TableCell>
               <TableCell>${item.quantity * item.product.price}</TableCell>
@@ -73,8 +73,8 @@ const Cart = () => {
         </tfoot>
       </CartTable>
     )}
-    <Button onClick={handleToggleCart}>Exit</Button>
-    {cartItems.length > 0 && (
+    {show && <Button onClick={handleToggleCart}>Exit</Button>}
+    {show && cartItems.length > 0 && (
       <Button onClick={handleCheckout}>Checkout</Button>
     )}
   </div>
