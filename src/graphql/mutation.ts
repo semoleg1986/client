@@ -57,6 +57,7 @@ mutation updateProduct(
   $description: String!
   $price: Decimal!
   $quantity: Int!
+  $categoryId: ID!
 ) {
   updateProduct(
     id: $id
@@ -64,12 +65,16 @@ mutation updateProduct(
     description: $description
     price: $price
     quantity: $quantity
+    categoryId: $categoryId
   ) { product {
     id
     name
     description
     price
     quantity
+    category {
+      id
+    }
   }}
 }`;
 

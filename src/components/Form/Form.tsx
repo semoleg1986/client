@@ -51,7 +51,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
           description: description,
           price: price,
           quantity: parsedQuantity,
-          category: category,
+          categoryId: category,
         },
       });
       handleEditProduct(null);
