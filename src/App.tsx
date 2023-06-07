@@ -5,8 +5,9 @@ import NotFoundPage from './pages/404/NotFoundPage';
 import Layout from './components/Layout';
 import { ApolloProvider } from '@apollo/client';
 import client from './graphql/client';
-import { ROOT_PAGE, NOT_FOUND_PAGE, STOCK_PAGE, ORDER_PAGE } from './routes';
+import { ROOT_PAGE, NOT_FOUND_PAGE, STOCK_PAGE, ORDER_PAGE, ORDER_DETAILS_PAGE } from './routes';
 import Order from './pages/Order';
+import OrderDetails from './pages/Order/orderDetails';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -23,6 +24,9 @@ const App = () => {
         },{
           path: ORDER_PAGE,
           element: <Order />,
+        },{
+          path: ORDER_DETAILS_PAGE,
+          element: <OrderDetails />,
         },{
           path: NOT_FOUND_PAGE,
           element: <NotFoundPage />,
