@@ -19,15 +19,11 @@ const Login: React.FC = () => {
 
   const [loginUser, { loading, error }] = useMutation(LOGIN_USER, {
     onCompleted: (data: any) => {
-      // Обработка успешной авторизации
       console.log(data);
-      // Установка состояния авторизации
       authContext?.setAuthenticated(true);
-      // Navigate to the home page
       navigate(ROOT_PAGE);
     },
     onError: (error: any) => {
-      // Обработка ошибки авторизации
       console.error(error);
     },
   });
@@ -39,8 +35,6 @@ const Login: React.FC = () => {
       username,
       password,
     };
-
-    // Вызов мутации для авторизации пользователя
     loginUser({ variables: loginData });
   };
 
