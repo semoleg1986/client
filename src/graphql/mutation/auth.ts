@@ -12,6 +12,7 @@ mutation CreateUser(
     username: $username
   ) {
     user {
+      id
       username
     }
   }
@@ -34,4 +35,27 @@ export const LOGIN_USER = gql`
       }
     }
   }
+`;
+
+export const CREATE_SELLER = gql`
+mutation creaetSeller(
+  $companyName: String!
+  $description: String!
+  $phoneNumber: String!
+  $userId: ID!
+) {
+  createSeller(
+    companyName: $companyName
+    description: $description
+    phoneNumber: $phoneNumber
+    userId: $userId
+  ) { 
+    seller {
+      id
+      user {
+        username
+      }
+      }
+  }
+}
 `;
