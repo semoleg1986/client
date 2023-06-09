@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { Product } from '../../types';
-import { GET_PRODUCTS } from '../../graphql/mutation';
+import { GET_PRODUCTS } from '../../graphql/mutation/product';
 import Form from '../../components/Form/Form';
 import Cards from '../../components/Cards';
 import { ToastContainer } from 'react-toastify';

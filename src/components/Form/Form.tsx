@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { CREATE_PRODUCT, EDIT_PRODUCT, GET_CATEGORIES,CREATE_CATEGORY } from "../../graphql/mutation";
+import { useState, useEffect } from "react";
+import { GET_CATEGORIES,CREATE_CATEGORY } from "../../graphql/mutation/category";
+import { CREATE_PRODUCT, EDIT_PRODUCT } from "../../graphql/mutation/product"
 import { useMutation, useQuery } from "@apollo/client";
 import { FormContainer, Input, Button, Select } from "./Form.styled";
 import { Product } from "../../types";

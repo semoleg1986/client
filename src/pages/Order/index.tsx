@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMutation } from '@apollo/client';
 import { RootState } from '../../store';
-import { CREATE_ORDER } from '../../graphql/mutation';
+import { CREATE_ORDER } from '../../graphql/mutation/order';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { clearCart } from '../../store/cartSlice';

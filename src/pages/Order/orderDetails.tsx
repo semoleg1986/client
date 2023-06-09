@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { GET_ORDER } from '../../graphql/mutation';
+import { GET_ORDER } from '../../graphql/mutation/order';
 
 const OrderDetails = () => {
 

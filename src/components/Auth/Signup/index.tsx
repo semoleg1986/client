@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "../../../graphql/mutation";
+import { CREATE_USER } from "../../../graphql/mutation/auth";
 import { Button, FormContainer, Input } from "../../Form/Form.styled";
 import { useState } from "react";
 

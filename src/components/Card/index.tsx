@@ -2,7 +2,7 @@ import React from 'react'
 import { Product } from '../../types';
 import { CardStyle } from './Card.styled';
 import { useMutation } from "@apollo/client";
-import { DELETE_PRODUCT } from "../../graphql/mutation";
+import { DELETE_PRODUCT } from "../../graphql/mutation/product";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DeleteButton, EditButton } from '../Buttons/Buttons.styled';

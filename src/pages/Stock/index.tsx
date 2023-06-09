@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { useDispatch, useSelector } from 'react-redux';
 import Cart from '../../components/Cart';
 import { Product } from '../../types';
-import { GET_PRODUCTS } from '../../graphql/mutation';
+import { GET_PRODUCTS } from '../../graphql/mutation/product';
 import { CardsStyle } from '../../components/Cards/Cards.styled';
 import { CardStyle } from '../../components/Card/Card.styled';
 import { addToCart } from '../../store/cartSlice';
