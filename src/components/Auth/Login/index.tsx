@@ -1,5 +1,5 @@
-import React, { useState, useContext, FormEvent } from 'react';
-import { useMutation } from '@apollo/client';
+import React, { useState, useContext, FormEvent, useEffect } from 'react';
+import { useApolloClient, useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../../graphql/mutation/auth';
 import { AuthContext } from '../../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -16,17 +16,49 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
+  const client = useApolloClient();
 
   const [loginUser, { loading, error }] = useMutation(LOGIN_USER, {
     onCompleted: (data: any) => {
       console.log(data);
       authContext?.setAuthenticated(true);
       navigate(ROOT_PAGE);
+      client.writeQuery({
+        query: LOGIN_USER,
+        data: {
+          loginUser: {
+            token: data.loginUser.token,
+            user: {
+              id: data.loginUser.user.id,
+              username: data.loginUser.user.username,
+              sellerProfile: {
+                id: data.loginUser.user.sellerProfile.id,
+                companyName: data.loginUser.user.sellerProfile.companyName,
+              }
+            },
+          },
+        },
+      });
+      const { token, ...userData } = data.loginUser;
+
+      localStorage.setItem('authData', JSON.stringify({ token }));
+      localStorage.setItem('userData', JSON.stringify(userData));
     },
     onError: (error: any) => {
       console.error(error);
     },
   });
+
+  //     проверка токена, что-то не работает
+  // useEffect(() => {
+  //   const authData = localStorage.getItem('authData');
+  //   if (authData) {
+  //     const { token } = JSON.parse(authData);
+  //     if (token) {
+  //       authContext?.setAuthenticated(true);
+  //     }
+  //   }
+  // }, []);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
