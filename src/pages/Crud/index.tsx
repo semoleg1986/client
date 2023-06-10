@@ -85,7 +85,7 @@ const Crud = (): JSX.Element => {
 
       {formModal}
 
-      {data && data.productsBySellerId.length === 0 ? (
+      {/* {data && data.productsBySellerId.length === 0 ? (
       <p>У вас еще нет товаров.</p>
     ) : (
       <Cards
@@ -93,7 +93,24 @@ const Crud = (): JSX.Element => {
         onEditProduct={handleEditProduct}
         updateProductList={updateProductList}
       />
-    )}
+    )} */}
+
+{
+    (() => {
+      if (data && data.productsBySellerId.length === 0) {
+        return <p>У вас еще нет товаров.</p>;
+      } else {
+        return (
+          <Cards
+            products={data?.productsBySellerId || []}
+            onEditProduct={handleEditProduct}
+            updateProductList={updateProductList}
+          />
+        );
+      }
+    })()
+  }
+
   </>
   );
 };
