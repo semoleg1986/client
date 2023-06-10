@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 
 export const CREATE_PRODUCT = gql`
   mutation createProduct(
+    $sellerId: ID!
     $name: String!
     $description: String!
     $price: Decimal!
@@ -9,6 +10,7 @@ export const CREATE_PRODUCT = gql`
     $categoryId: ID!
   ) {
     createProduct(
+      sellerId: $sellerId
         name: $name
         description: $description
         price: $price
@@ -77,3 +79,22 @@ mutation updateProduct(
     }
   }}
 }`;
+
+export const GET_PRODUCTS_BY_SELLER_ID = gql`
+query ($sellerId: ID!) {
+productsBySellerId(sellerId: $sellerId) {
+    id
+    name
+    description
+    price
+    quantity
+    category {
+      id
+      name
+    }
+    seller {
+      id
+    }
+  }
+}
+`;

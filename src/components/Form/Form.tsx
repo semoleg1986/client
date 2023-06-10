@@ -21,6 +21,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState<string>("");
   const [newCategory, setNewCategory] = useState("");
+  const [sellerId, setSellerId] = useState('');
 
   const { data, refetch } = useQuery(GET_CATEGORIES);
 
@@ -36,11 +37,20 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
       setDescription(selectedProduct.description);
       setPrice(selectedProduct.price.toString());
       setQuantity(selectedProduct.quantity.toString());
-      setCategory(selectedProduct.category.name.toString());
+      setCategory(selectedProduct.category.id.toString());
     }
   }, [selectedProduct]);
 
   const categories = data?.categories || [];
+
+  useEffect(() => {
+    const authData = localStorage.getItem('auth');
+    const parsedAuthData = authData ? JSON.parse(authData) : null;
+    const value = parsedAuthData ? Object.values(parsedAuthData)[2] : null;
+    const sellerId = parseInt(value as string);
+    setSellerId(sellerId.toString());
+    // console.log(sellerId)
+  }, []);
 
   const addProduct = async () => {
     try {
@@ -61,6 +71,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
     } else {
       await createProduct({
         variables: {
+          sellerId: sellerId,
           name: name,
           description: description,
           price: price,
