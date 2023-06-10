@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { useSelector } from 'react-redux';
 import { Product } from '../../types';
 import { GET_PRODUCTS } from '../../graphql/mutation/product';
 import Form from '../../components/Form/Form';
@@ -10,9 +11,12 @@ import { Overlay } from '../../components/Overlay/Overlay.styled';
 import { CloseButton } from '../../components/Buttons/Buttons.styled';
 import { FormContainer } from '../../components/Form/Form.styled';
 import { Button } from '../../components/Form/Form.styled';
+import { RootState } from '../../store/';
 
 
 const Crud = (): JSX.Element => {
+  const authenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const token = useSelector((state: RootState) => state.auth.token);
   const { loading, error, data, refetch } = useQuery<{ products: Product[] }>(GET_PRODUCTS);
   const [isFormOpen, setFormOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -53,6 +57,10 @@ const Crud = (): JSX.Element => {
         </ModalContent>
       </Modal>
     );
+  }
+
+  if (!authenticated && !token) {
+    return <p>Вы не авторизованы.</p>;
   }
 
   if (loading) {

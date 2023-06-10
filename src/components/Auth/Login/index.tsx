@@ -1,64 +1,33 @@
-import React, { useState, useContext, FormEvent, useEffect } from 'react';
-import { useApolloClient, useMutation } from '@apollo/client';
+import React, { useState, FormEvent } from 'react';
+import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../../graphql/mutation/auth';
-import { AuthContext } from '../../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ROOT_PAGE } from '../../../routes';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../../store/authSlice';
 
 interface LoginData {
-  // Define the shape of the login data object
   username: string;
   password: string;
 }
 
-const Login: React.FC = () => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const authContext = useContext(AuthContext);
   const navigate = useNavigate();
-  const client = useApolloClient();
+  const dispatch = useDispatch();
 
-  const [loginUser, { loading, error }] = useMutation(LOGIN_USER, {
+  const [loginUserMutation, { loading, error }] = useMutation(LOGIN_USER, {
     onCompleted: (data: any) => {
-      console.log(data);
-      authContext?.setAuthenticated(true);
+      const token = data.loginUser.token;
+      const idSeller = data.loginUser.user.sellerProfile.id
+      dispatch(loginUser({ token, idSeller }));
       navigate(ROOT_PAGE);
-      client.writeQuery({
-        query: LOGIN_USER,
-        data: {
-          loginUser: {
-            token: data.loginUser.token,
-            user: {
-              id: data.loginUser.user.id,
-              username: data.loginUser.user.username,
-              sellerProfile: {
-                id: data.loginUser.user.sellerProfile.id,
-                companyName: data.loginUser.user.sellerProfile.companyName,
-              }
-            },
-          },
-        },
-      });
-      const { token, ...userData } = data.loginUser;
-
-      localStorage.setItem('authData', JSON.stringify({ token }));
-      localStorage.setItem('userData', JSON.stringify(userData));
     },
     onError: (error: any) => {
       console.error(error);
     },
   });
-
-  //     проверка токена, что-то не работает
-  // useEffect(() => {
-  //   const authData = localStorage.getItem('authData');
-  //   if (authData) {
-  //     const { token } = JSON.parse(authData);
-  //     if (token) {
-  //       authContext?.setAuthenticated(true);
-  //     }
-  //   }
-  // }, []);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -67,7 +36,7 @@ const Login: React.FC = () => {
       username,
       password,
     };
-    loginUser({ variables: loginData });
+    loginUserMutation({ variables: loginData });
   };
 
   return (

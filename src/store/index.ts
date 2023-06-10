@@ -1,37 +1,35 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './authSlice';
 import cartReducer from './cartSlice';
 import cartState from './cartState';
 
-// Дополнительно импортируйте типы для Redux Persist
-import { PersistConfig } from 'redux-persist/es/types';
-import { PersistPartial } from 'redux-persist/es/persistReducer';
+const savedCartState = localStorage.getItem('cart');
+const savedAuthState = localStorage.getItem('auth');
 
-const persistConfig: PersistConfig<RootState> = {
-  key: 'root',
-  storage,
+const preloadedState = {
+  cart: savedCartState ? JSON.parse(savedCartState) : [],
+  auth: savedAuthState ? JSON.parse(savedAuthState) : { isAuthenticated: false },
+  cartstate: { ...cartState, isVisible: false },
 };
 
-const rootReducer = combineReducers({
-  cart: cartReducer,
-  cartstate: cartState,
+const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    cart: cartReducer,
+    cartstate: cartState,
+  },
+  preloadedState,
 });
 
-const persistedReducer = persistReducer<RootState, any>(persistConfig, rootReducer);
+store.subscribe(() => {
+  const state = store.getState();
+  const cartState = state.cart;
+  const authState = state.auth;
 
-export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-  getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
-  }),
+  localStorage.setItem('cart', JSON.stringify(cartState));
+  localStorage.setItem('auth', JSON.stringify(authState));
 });
 
-export const persistor = persistStore(store);
-
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export default { store, persistor };
+export default store;

@@ -8,7 +8,7 @@ const initialState: CartState = {
   isVisible: false,
 };
 
-const cartSlice = createSlice({
+const cartState = createSlice({
   name: 'cart',
   initialState,
   reducers: {
@@ -18,6 +18,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { toggleCart } = cartSlice.actions;
+export const { toggleCart } = cartState.actions;
 
-export default cartSlice.reducer;
+export default cartState.reducer;
