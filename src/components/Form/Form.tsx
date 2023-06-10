@@ -6,6 +6,8 @@ import { FormContainer, Input, Button, Select } from "./Form.styled";
 import { Product } from "../../types";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 
 interface FormProps {
@@ -21,13 +23,14 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState<string>("");
   const [newCategory, setNewCategory] = useState("");
-  const [sellerId, setSellerId] = useState('');
 
   const { data, refetch } = useQuery(GET_CATEGORIES);
 
   const [createProduct, { error }] = useMutation(CREATE_PRODUCT);
   const [editProduct] = useMutation(EDIT_PRODUCT);
   const [createCategory] = useMutation (CREATE_CATEGORY);
+  const sellerId = useSelector((state: RootState) => state.auth.idSeller);
+
 
   const parsedQuantity = parseInt(quantity, 10);
 
@@ -42,16 +45,6 @@ function Form({ updateProductList, handleEditProduct, selectedProduct } : FormPr
   }, [selectedProduct]);
 
   const categories = data?.categories || [];
-
-  useEffect(() => {
-    const authData = localStorage.getItem('auth');
-    const parsedAuthData = authData ? JSON.parse(authData) : null;
-    const value = parsedAuthData ? Object.values(parsedAuthData)[2] : null;
-    const sellerId = parseInt(value as string);
-    setSellerId(sellerId.toString());
-    // console.log(sellerId)
-  }, []);
-
   const addProduct = async () => {
     try {
       if(selectedProduct) {

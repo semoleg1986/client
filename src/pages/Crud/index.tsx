@@ -17,17 +17,8 @@ import { RootState } from '../../store/';
 const Crud = (): JSX.Element => {
   const authenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const token = useSelector((state: RootState) => state.auth.token);
-  const [sellerId, setSellerId] = useState('');
-  // const { loading, error, data, refetch } = useQuery<{ products: Product[] }>(GET_PRODUCTS_BY_SELLER_ID);
+  const sellerId = useSelector((state: RootState) => state.auth.idSeller);
 
-  useEffect(() => {
-    const authData = localStorage.getItem('auth');
-    const parsedAuthData = authData ? JSON.parse(authData) : null;
-    const value = parsedAuthData ? Object.values(parsedAuthData)[2] : null;
-    const sellerId = parseInt(value as string);
-    setSellerId(sellerId.toString());
-    // console.log(sellerId)
-  }, []);
   
   const { loading, error, data, refetch } = useQuery<{ productsBySellerId: Product[] }>(GET_PRODUCTS_BY_SELLER_ID, {
     variables: { sellerId: sellerId },
