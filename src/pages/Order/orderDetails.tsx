@@ -59,15 +59,14 @@ function OrderDetails() {
           </tr>
         </thead>
         <tbody>
-          {latestOrder.orderitemSet.map((orderItem: { product: { name: string, price: number } }) => (
-            <tr key={orderItem.product.name}>
-              <td>{orderItem.product.name}</td>
-              <td>
-                $
-                {orderItem.product.price}
-              </td>
-            </tr>
-          ))}
+          {latestOrder.orderitemSet.map(
+            (orderItem: { product: { name: string; price: number } }) => (
+              <tr key={orderItem.product.name}>
+                <td>{orderItem.product.name}</td>
+                <td>${orderItem.product.price}</td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     </div>

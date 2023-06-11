@@ -21,22 +21,28 @@ function App() {
         {
           index: true,
           element: <Home />,
-        }, {
+        },
+        {
           path: routes.CRUD_PAGE,
           element: <Crud />,
-        }, {
+        },
+        {
           path: routes.SIGN_UP,
           element: <Signup />,
-        }, {
+        },
+        {
           path: routes.SIGN_IN,
           element: <Login />,
-        }, {
+        },
+        {
           path: routes.ORDER_PAGE,
           element: <Order />,
-        }, {
+        },
+        {
           path: routes.ORDER_DETAILS_PAGE,
           element: <OrderDetails />,
-        }, {
+        },
+        {
           path: routes.NOT_FOUND_PAGE,
           element: <NotFoundPage />,
         },

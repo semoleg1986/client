@@ -17,14 +17,12 @@ function Crud(): JSX.Element {
   const token = useSelector((state: RootState) => state.auth.token);
   const sellerId = useSelector((state: RootState) => state.auth.idSeller);
 
-  const {
-    loading,
-    error,
-    data,
-    refetch,
-  } = useQuery<{ productsBySellerId: Product[] }>(GET_PRODUCTS_BY_SELLER_ID, {
-    variables: { sellerId },
-  });
+  const { loading, error, data, refetch } = useQuery<{ productsBySellerId: Product[] }>(
+    GET_PRODUCTS_BY_SELLER_ID,
+    {
+      variables: { sellerId },
+    }
+  );
 
   const [isFormOpen, setFormOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -79,13 +77,7 @@ function Crud(): JSX.Element {
   }
 
   if (error) {
-    return (
-      <p>
-        Error:
-        {' '}
-        {error.message}
-      </p>
-    );
+    return <p>Error: {error.message}</p>;
   }
 
   return (
