@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const CREATE_PRODUCT = gql`
   mutation createProduct(
@@ -22,9 +22,6 @@ export const CREATE_PRODUCT = gql`
     }
   }
 `;
-
-
-
 
 export const GET_PRODUCTS = gql`
   query {
@@ -50,7 +47,7 @@ mutation deleteProduct(
   ) {
     success
   }
-}`
+}`;
 
 export const EDIT_PRODUCT = gql`
 mutation updateProduct(

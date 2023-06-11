@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const CardStyle = styled.div`
+const CardStyle = styled.div`
   background-color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   padding: 1rem;
@@ -17,4 +17,6 @@ export const CardStyle = styled.div`
     color: cornflowerblue;
     font-style: italic;
   }
-`
+`;
+
+export default CardStyle;

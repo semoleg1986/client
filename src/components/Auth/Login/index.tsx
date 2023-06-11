@@ -1,9 +1,9 @@
 import React, { useState, FormEvent } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../../../graphql/mutation/auth';
 import { useNavigate } from 'react-router-dom';
-import { ROOT_PAGE } from '../../../routes';
 import { useDispatch } from 'react-redux';
+import { LOGIN_USER } from '../../../graphql/mutation/auth';
+import { ROOT_PAGE } from '../../../routes';
 import { loginUser } from '../../../store/authSlice';
 
 interface LoginData {
@@ -11,20 +11,31 @@ interface LoginData {
   password: string;
 }
 
-const Login = () => {
+interface LoginUserResponse {
+  loginUser: {
+    token: string;
+    user: {
+      sellerProfile: {
+        id: string;
+      };
+    };
+  };
+}
+
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [loginUserMutation, { loading, error }] = useMutation(LOGIN_USER, {
-    onCompleted: (data: any) => {
-      const token = data.loginUser.token;
-      const idSeller = data.loginUser.user.sellerProfile.id
+  const [loginUserMutation, { loading, error }] = useMutation<LoginUserResponse>(LOGIN_USER, {
+    onCompleted: (data) => {
+      const { token } = data.loginUser;
+      const idSeller = data.loginUser.user.sellerProfile.id;
       dispatch(loginUser({ token, idSeller }));
       navigate(ROOT_PAGE);
     },
-    onError: (error: any) => {
+    onError: (error) => {
       console.error(error);
     },
   });
@@ -44,17 +55,17 @@ const Login = () => {
       <h1>Страница авторизации</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Имя пользователя:</label>
           <input
             type="text"
+            id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div>
-          <label>Пароль:</label>
           <input
             type="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -66,6 +77,6 @@ const Login = () => {
       </form>
     </div>
   );
-};
+}
 
 export default Login;

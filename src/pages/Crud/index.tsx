@@ -1,28 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import { Product } from '../../types';
-import { GET_PRODUCTS, GET_PRODUCTS_BY_SELLER_ID } from '../../graphql/mutation/product';
+import { GET_PRODUCTS_BY_SELLER_ID } from '../../graphql/mutation/product';
 import Form from '../../components/Form/Form';
 import Cards from '../../components/Cards';
-import { ToastContainer } from 'react-toastify';
 import { Modal, ModalContent } from '../../components/Modal/Modal.styled';
-import { Overlay } from '../../components/Overlay/Overlay.styled';
+import Overlay from '../../components/Overlay/Overlay.styled';
 import { CloseButton } from '../../components/Buttons/Buttons.styled';
-import { FormContainer } from '../../components/Form/Form.styled';
-import { Button } from '../../components/Form/Form.styled';
-import { RootState } from '../../store/';
+import { FormContainer, Button } from '../../components/Form/Form.styled';
+import { RootState } from '../../store';
 
-
-const Crud = (): JSX.Element => {
+function Crud(): JSX.Element {
   const authenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const token = useSelector((state: RootState) => state.auth.token);
   const sellerId = useSelector((state: RootState) => state.auth.idSeller);
 
-  
-  const { loading, error, data, refetch } = useQuery<{ productsBySellerId: Product[] }>(GET_PRODUCTS_BY_SELLER_ID, {
-    variables: { sellerId: sellerId },
+  const {
+    loading,
+    error,
+    data,
+    refetch,
+  } = useQuery<{ productsBySellerId: Product[] }>(GET_PRODUCTS_BY_SELLER_ID, {
+    variables: { sellerId },
   });
+
   const [isFormOpen, setFormOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -34,19 +37,18 @@ const Crud = (): JSX.Element => {
   const openForm = () => {
     setFormOpen(true);
   };
+  const clearForm = () => {
+    setSelectedProduct(null);
+  };
 
   const closeForm = () => {
     setFormOpen(false);
     clearForm();
   };
 
-  const clearForm = () => {
-    setSelectedProduct(null);
-  };
-
   const handleEditProduct = (product: Product | null) => {
-    setSelectedProduct(product); // Установка выбранного продукта
-    setFormOpen(true); // Открытие формы
+    setSelectedProduct(product);
+    setFormOpen(true);
   };
 
   let formModal = null;
@@ -57,7 +59,11 @@ const Crud = (): JSX.Element => {
         <ModalContent>
           <CloseButton onClick={closeForm}>&times;</CloseButton>
           <FormContainer>
-          <Form updateProductList={updateProductList} handleEditProduct={handleEditProduct} selectedProduct={selectedProduct} />
+            <Form
+              updateProductList={updateProductList}
+              handleEditProduct={handleEditProduct}
+              selectedProduct={selectedProduct}
+            />
           </FormContainer>
         </ModalContent>
       </Modal>
@@ -73,7 +79,13 @@ const Crud = (): JSX.Element => {
   }
 
   if (error) {
-    return <p>Error: {error.message}</p>;
+    return (
+      <p>
+        Error:
+        {' '}
+        {error.message}
+      </p>
+    );
   }
 
   return (
@@ -85,21 +97,10 @@ const Crud = (): JSX.Element => {
 
       {formModal}
 
-      {/* {data && data.productsBySellerId.length === 0 ? (
-      <p>У вас еще нет товаров.</p>
-    ) : (
-      <Cards
-        products={data?.productsBySellerId || []}
-        onEditProduct={handleEditProduct}
-        updateProductList={updateProductList}
-      />
-    )} */}
-
-{
-    (() => {
-      if (data && data.productsBySellerId.length === 0) {
-        return <p>У вас еще нет товаров.</p>;
-      } else {
+      {(() => {
+        if (data && data.productsBySellerId.length === 0) {
+          return <p>У вас еще нет товаров.</p>;
+        }
         return (
           <Cards
             products={data?.productsBySellerId || []}
@@ -107,12 +108,9 @@ const Crud = (): JSX.Element => {
             updateProductList={updateProductList}
           />
         );
-      }
-    })()
-  }
-
-  </>
+      })()}
+    </>
   );
-};
+}
 
 export default Crud;
