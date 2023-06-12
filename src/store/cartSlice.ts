@@ -35,7 +35,10 @@ const cartSlice = createSlice({
       }
     },
     clearCart: (state) => {
-      state.length = 0;
+      return {
+        ...state,
+        length: 0,
+      };
     },
   },
 });

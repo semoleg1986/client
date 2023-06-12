@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface CartState {
   isVisible: boolean;
@@ -13,7 +13,10 @@ const cartState = createSlice({
   initialState,
   reducers: {
     toggleCart(state) {
-      state.isVisible = !state.isVisible;
+      return {
+        ...state,
+        isVisible: !state.isVisible,
+      };
     },
   },
 });
