@@ -35,8 +35,8 @@ function Login() {
       dispatch(loginUser({ token, idSeller }));
       navigate(ROOT_PAGE);
     },
-    onError: (error) => {
-      console.error(error);
+    onError: (err) => {
+      console.error(err);
     },
   });
 

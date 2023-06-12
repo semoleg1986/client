@@ -26,7 +26,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct }: FormPro
 
   const { data, refetch } = useQuery(GET_CATEGORIES);
 
-  const [createProduct, { error }] = useMutation(CREATE_PRODUCT);
+  const [createProduct] = useMutation(CREATE_PRODUCT);
   const [editProduct] = useMutation(EDIT_PRODUCT);
   const [createCategory] = useMutation(CREATE_CATEGORY);
   const sellerId = useSelector((state: RootState) => state.auth.idSeller);
@@ -79,8 +79,8 @@ function Form({ updateProductList, handleEditProduct, selectedProduct }: FormPro
       setDescription('');
       setPrice('');
       setQuantity('');
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
 

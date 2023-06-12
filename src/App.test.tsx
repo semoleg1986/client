@@ -5,9 +5,9 @@ import App from './App';
 describe('App component', () => {
   it('should render without errors', () => {
     render(
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     );
   });
 });
