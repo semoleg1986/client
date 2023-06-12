@@ -10,7 +10,7 @@ import Layout from './components/Layout';
 import client from './graphql/client';
 import * as routes from './routes';
 import Order from './pages/Order';
-import OrderDetails from './pages/Order/orderDetails';
+// import OrderDetails from './pages/Order/orderDetails';
 
 function App() {
   const router = createBrowserRouter([
@@ -38,10 +38,10 @@ function App() {
           path: routes.ORDER_PAGE,
           element: <Order />,
         },
-        {
-          path: routes.ORDER_DETAILS_PAGE,
-          element: <OrderDetails />,
-        },
+        // {
+        //   path: routes.ORDER_DETAILS_PAGE,
+        //   element: <OrderDetails />,
+        // },
         {
           path: routes.NOT_FOUND_PAGE,
           element: <NotFoundPage />,

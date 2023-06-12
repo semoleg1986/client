@@ -23,7 +23,7 @@ const store = configureStore({
 store.subscribe(() => {
   const state = store.getState();
   const authState = state.auth;
-  const cartState = state.cart;
+  // const cartState = state.cart;
   localStorage.setItem('auth', JSON.stringify(authState));
   localStorage.setItem('cart', JSON.stringify(cartState));
 });
@@ -31,4 +31,3 @@ store.subscribe(() => {
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export default store;
-
