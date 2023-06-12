@@ -19,37 +19,37 @@ export const CREATE_ORDER = gql`
       productIds: $productIds
       quantities: $quantities
     ) {
-      order{
-      name
-      surname
-      phoneNumber
-      products {
-        id
+      order {
         name
-        price
-        quantity
-      }
+        surname
+        phoneNumber
+        products {
+          id
+          name
+          price
+          quantity
+        }
       }
     }
   }
 `;
 
 export const GET_ORDER = gql`
-query {
-  orders {
-    receiptNumber
-    name
-    surname
-    phoneNumber
-    address
-    email
-    status
-    orderitemSet {
-      product {
-        name
-        price
+  query {
+    orders {
+      receiptNumber
+      name
+      surname
+      phoneNumber
+      address
+      email
+      status
+      orderitemSet {
+        product {
+          name
+          price
+        }
       }
     }
   }
-}
 `;

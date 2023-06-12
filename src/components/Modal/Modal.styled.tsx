@@ -13,9 +13,9 @@ export const Modal = styled.div`
 `;
 
 export const ModalContent = styled.div`
-background: white;
-padding: 20px;
-border-radius: 4px;
-position: relative;
-z-index: 1000;
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+  position: relative;
+  z-index: 1000;
 `;

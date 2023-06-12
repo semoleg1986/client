@@ -19,7 +19,11 @@ function Header() {
       <CustomNavLink to={ROOT_PAGE}>Home</CustomNavLink>
       <CustomNavLink to={CRUD_PAGE}>Crud</CustomNavLink>
       <CustomNavLink to={ORDER_PAGE}>Order</CustomNavLink>
-      {isAuthenticated && <button type="button" onClick={handleLogout}>Log out</button>}
+      {isAuthenticated && (
+        <button type="button" onClick={handleLogout}>
+          Log out
+        </button>
+      )}
     </HeaderStyled>
   );
 }

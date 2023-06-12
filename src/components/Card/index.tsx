@@ -38,26 +38,13 @@ function Card({ product, onEditProduct, updateProductList }: CardProps) {
       <CardStyle key={product.id}>
         <h5>{product.name}</h5>
         <p>{product.description}</p>
-        <p>
-          Price: $
-          {product.price}
-        </p>
-        <p>
-          Quantity:
-          {' '}
-          {product.quantity}
-        </p>
-        <p>
-          Category:
-          {' '}
-          {product.category.name}
-        </p>
+        <p>Price: ${product.price}</p>
+        <p>Quantity: {product.quantity}</p>
+        <p>Category: {product.category.name}</p>
 
         <DeleteButton onClick={handleDeleteProduct}>DELETE</DeleteButton>
         <EditButton onClick={handleEditProduct}>EDIT</EditButton>
-
       </CardStyle>
-
     </div>
   );
 }

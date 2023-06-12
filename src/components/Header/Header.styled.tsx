@@ -38,7 +38,6 @@ export const CartButton = styled.button`
     z-index: 100;
   }
   p {
-
     min-width: 20px;
     background-color: white;
     border-radius: 20px;

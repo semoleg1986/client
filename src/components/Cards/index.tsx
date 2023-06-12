@@ -9,7 +9,7 @@ type CardsProps = {
   onEditProduct: (product: Product) => void;
 };
 
-function Cards({ products, onEditProduct, updateProductList }:CardsProps) {
+function Cards({ products, onEditProduct, updateProductList }: CardsProps) {
   return (
     <CardsStyle>
       {products.map((product) => (

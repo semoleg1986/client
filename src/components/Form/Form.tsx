@@ -4,9 +4,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { GET_CATEGORIES, CREATE_CATEGORY } from '../../graphql/mutation/category';
 import { CREATE_PRODUCT, EDIT_PRODUCT } from '../../graphql/mutation/product';
-import {
-  FormContainer, Input, Button, Select,
-} from './Form.styled';
+import { FormContainer, Input, Button, Select } from './Form.styled';
 import { Product } from '../../types';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,7 +13,7 @@ import { RootState } from '../../store';
 interface FormProps {
   updateProductList: () => void;
   handleEditProduct: (product: Product | null) => void;
-  selectedProduct: Product | null
+  selectedProduct: Product | null;
 }
 
 function Form({ updateProductList, handleEditProduct, selectedProduct }: FormProps) {
@@ -135,7 +133,7 @@ function Form({ updateProductList, handleEditProduct, selectedProduct }: FormPro
         <Select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
           <option value="">Select category</option>
           <option value="newCategory">Add new category</option>
-          {categories.map((category: { id: string, name: string }) => (
+          {categories.map((category: { id: string; name: string }) => (
             <option key={category.id} value={category.id}>
               {category.name}
             </option>
@@ -149,7 +147,14 @@ function Form({ updateProductList, handleEditProduct, selectedProduct }: FormPro
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
             />
-            <Button onClick={() => { addCategory(); updateCategoryList(); }}>Add Category</Button>
+            <Button
+              onClick={() => {
+                addCategory();
+                updateCategoryList();
+              }}
+            >
+              Add Category
+            </Button>
           </>
         )}
         {selectedCategory !== 'newCategory' && (
