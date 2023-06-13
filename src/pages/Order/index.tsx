@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useQuery } from '@apollo/client';
-import { ORDER_BY_SELLER_ID } from '../../graphql/mutation/order';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useQuery, useMutation } from '@apollo/client';
+import { ORDER_BY_SELLER_ID, UPDATE_ORDER } from '../../graphql/mutation/order';
 import { RootState } from '../../store';
 import './order.css';
 import { Order, OrderItem } from '../../types';
@@ -15,6 +15,11 @@ function OrderList() {
 
   const [showArchive, setShowArchive] = useState(false);
   const [orderDetailsVisible, setOrderDetailsVisible] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
+
+  const dispatch = useDispatch();
+
+  const [updateOrder] = useMutation(UPDATE_ORDER);
 
   const toggleArchive = () => {
     setShowArchive(!showArchive);
@@ -26,6 +31,26 @@ function OrderList() {
     } else {
       setOrderDetailsVisible(orderId);
     }
+  };
+
+  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>, orderId: string) => {
+    const newStatus = event.target.value;
+    setSelectedStatus(newStatus);
+    // Make the mutation to update the order status
+    updateOrder({
+      variables: {
+        orderId,
+        status: newStatus,
+      },
+    })
+      .then((response) => {
+        // Dispatch an action to update the order status in the Redux store
+        dispatch({ type: 'UPDATE_ORDER_STATUS', payload: { orderId, newStatus } });
+        console.log('Order status updated successfully');
+      })
+      .catch((err) => {
+        console.error('Error updating order status:', err);
+      });
   };
 
   if (loading) {
@@ -42,8 +67,8 @@ function OrderList() {
     return <p>No orders available.</p>;
   }
 
-  const archiveOrders = orders.filter((order: Order) => order.status === 'Завершен');
-  const activeOrders = orders.filter((order: Order) => order.status !== 'Завершен');
+  const archiveOrders = orders.filter((order: Order) => order.status === 'Выполнен');
+  const activeOrders = orders.filter((order: Order) => order.status !== 'Выполнен');
 
   const renderOrderDetails = (order: Order) => {
     const calculateTotalAmount = (orderItems: OrderItem[]) => {
@@ -53,7 +78,6 @@ function OrderList() {
       });
       return total;
     };
-
     return (
       <div className="order-details">
         <h6>Items:</h6>
@@ -69,6 +93,9 @@ function OrderList() {
     );
   };
 
+  // const statuses = order?.statuses || [];
+  const statuses: string[] = [];
+
   const renderActiveOrders = () => {
     return (
       <div>
@@ -80,7 +107,20 @@ function OrderList() {
             <p className="order-info">Surname: {order.surname}</p>
             <p className="order-info">Phone Number: {order.phoneNumber}</p>
             <p className="order-info">Address: {order.address}</p>
-            <p className="order-info">Status: {order.status}</p>
+            <p className="order-info">
+              Status:
+              <select
+                value={selectedStatus}
+                onChange={(event) => handleStatusChange(event, order.id)}
+              >
+                <option value="">{order.status}</option>
+                {statuses.map((status: string) => (
+                  <option key={status} value={order.status}>
+                    {order.status}
+                  </option>
+                ))}
+              </select>
+            </p>
             <p className="order-info">Update Date: {order.updateDate}</p>
             <button type="button" onClick={() => toggleOrderDetails(order.id)}>
               Show Details
@@ -109,6 +149,17 @@ function OrderList() {
               Show Details
             </button>
             {orderDetailsVisible === order.id && renderOrderDetails(order)}
+            <select
+              value={selectedStatus}
+              onChange={(event) => handleStatusChange(event, order.id)}
+            >
+              <option value="">{order.status}</option>
+              {statuses.map((status: string) => (
+                <option key={status} value={status}>
+                  {order.status}
+                </option>
+              ))}
+            </select>
           </div>
         ))}
       </div>

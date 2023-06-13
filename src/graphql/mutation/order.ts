@@ -77,3 +77,28 @@ export const ORDER_BY_SELLER_ID = gql`
     }
   }
 `;
+
+export const UPDATE_ORDER = gql`
+  mutation UpdateOrder(
+    $address: String!
+    $name: String!
+    $orderId: ID!
+    $phoneNumber: String!
+    $status: String!
+    $surname: String!
+  ) {
+    updateOrder(
+      address: $address
+      name: $name
+      orderId: $orderId
+      status: $status
+      surname: $surname
+    ) {
+      order {
+        id
+        receiptNumber
+        status
+      }
+    }
+  }
+`;
