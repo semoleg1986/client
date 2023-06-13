@@ -102,3 +102,17 @@ export const UPDATE_ORDER = gql`
     }
   }
 `;
+
+export const GET_STATUSES = gql`
+  query {
+    statuses
+  }
+`;
+
+export const UPDATE_STATUS = gql`
+  mutation UpdateOrderStatus($orderId: ID!, $status: String!) {
+    updateOrderStatus(orderId: $orderId, status: $status) {
+      status
+    }
+  }
+`;

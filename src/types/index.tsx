@@ -16,6 +16,7 @@ export interface IOrder {
   name: string;
   surname: string;
   phoneNumber: string;
+  email: string;
   address: string;
   status: string;
   updateDate: string;

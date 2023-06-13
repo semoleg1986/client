@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQuery, useMutation } from '@apollo/client';
-import { ORDER_BY_SELLER_ID, UPDATE_ORDER } from '../../graphql/mutation/order';
+import { GET_STATUSES, ORDER_BY_SELLER_ID, UPDATE_STATUS } from '../../graphql/mutation/order';
 import { RootState } from '../../store';
 import './order.css';
 import { IOrder, IOrderItem } from '../../types';
@@ -9,17 +9,19 @@ import { IOrder, IOrderItem } from '../../types';
 function OrderList() {
   const sellerId = useSelector((state: RootState) => state.auth.idSeller);
   // const sellerId = 1; // проверял работоспособность
-  const { loading, error, data } = useQuery(ORDER_BY_SELLER_ID, {
+  const { loading, error, data, refetch } = useQuery(ORDER_BY_SELLER_ID, {
     variables: { sellerId },
   });
 
+  const { loading: statusLoading, error: statusError, data: statusData } = useQuery(GET_STATUSES);
+
   const [showArchive, setShowArchive] = useState(false);
   const [orderDetailsVisible, setOrderDetailsVisible] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedStatuses, setSelectedStatuses] = useState<{ [orderId: string]: string }>({});
 
   const dispatch = useDispatch();
 
-  const [updateOrder] = useMutation(UPDATE_ORDER);
+  const [updateOrderStatus] = useMutation(UPDATE_STATUS);
 
   const toggleArchive = () => {
     setShowArchive(!showArchive);
@@ -35,9 +37,12 @@ function OrderList() {
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>, orderId: string) => {
     const newStatus = event.target.value;
-    setSelectedStatus(newStatus);
+    setSelectedStatuses((prevSelectedStatuses) => ({
+      ...prevSelectedStatuses,
+      [orderId]: newStatus,
+    }));
     // Make the mutation to update the order status
-    updateOrder({
+    updateOrderStatus({
       variables: {
         orderId,
         status: newStatus,
@@ -51,15 +56,18 @@ function OrderList() {
       })
       .catch((err) => {
         console.error('Error updating order status:', err);
+      })
+      .finally(() => {
+        refetch();
       });
   };
 
-  if (loading) {
+  if (loading || statusLoading) {
     return <p>Loading...</p>;
   }
 
-  if (error) {
-    return <p>Error: {error.message}</p>;
+  if (error || statusError) {
+    return <p>Error: {error?.message || statusError?.message}</p>;
   }
 
   const orders = data.ordersBySellerId;
@@ -94,8 +102,8 @@ function OrderList() {
     );
   };
 
-  // const statuses = order?.statuses || [];
-  const statuses: string[] = [];
+  const { statuses } = statusData;
+  // const statuses: string[] = [];
 
   const renderActiveOrders = () => {
     return (
@@ -107,17 +115,18 @@ function OrderList() {
             <p className="order-info">Name: {order.name}</p>
             <p className="order-info">Surname: {order.surname}</p>
             <p className="order-info">Phone Number: {order.phoneNumber}</p>
+            <p className="order-info">Email: {order.email}</p>
             <p className="order-info">Address: {order.address}</p>
             <p className="order-info">
               Status:
               <select
-                value={selectedStatus}
+                value={selectedStatuses[order.id] || ''}
                 onChange={(event) => handleStatusChange(event, order.id)}
               >
                 <option value="">{order.status}</option>
                 {statuses.map((status: string) => (
-                  <option key={status} value={order.status}>
-                    {order.status}
+                  <option key={status} value={status}>
+                    {status}
                   </option>
                 ))}
               </select>
@@ -143,24 +152,27 @@ function OrderList() {
             <p className="order-info">Name: {order.name}</p>
             <p className="order-info">Surname: {order.surname}</p>
             <p className="order-info">Phone Number: {order.phoneNumber}</p>
+            <p className="order-info">Email: {order.email}</p>
             <p className="order-info">Address: {order.address}</p>
-            <p className="order-info">Status: {order.status}</p>
+            <p className="order-info">
+              Status:
+              <select
+                value={selectedStatuses[order.id] || ''}
+                onChange={(event) => handleStatusChange(event, order.id)}
+              >
+                <option value="">{order.status}</option>
+                {statuses.map((status: string) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+            </p>
             <p className="order-info">Update Date: {order.updateDate}</p>
             <button type="button" onClick={() => toggleOrderDetails(order.id)}>
               Show Details
             </button>
             {orderDetailsVisible === order.id && renderOrderDetails(order)}
-            <select
-              value={selectedStatus}
-              onChange={(event) => handleStatusChange(event, order.id)}
-            >
-              <option value="">{order.status}</option>
-              {statuses.map((status: string) => (
-                <option key={status} value={status}>
-                  {order.status}
-                </option>
-              ))}
-            </select>
           </div>
         ))}
       </div>
