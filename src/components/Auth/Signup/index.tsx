@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CREATE_SELLER, CREATE_USER } from '../../../graphql/mutation/auth';
-import { Button, FormContainer, Input } from '../../Form/Form.styled';
+import { Button, FormContainer, Input } from '../../styles/Form.styled';
 
 function Signup() {
   const [createUser] = useMutation(CREATE_USER);

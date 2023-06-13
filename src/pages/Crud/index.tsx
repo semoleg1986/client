@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { Product } from '../../types';
+import { IProduct } from '../../types';
 import { GET_PRODUCTS_BY_SELLER_ID } from '../../graphql/mutation/product';
 import Form from '../../components/Form/Form';
 import Cards from '../../components/Cards';
-import { Modal, ModalContent } from '../../components/Modal/Modal.styled';
-import Overlay from '../../components/Overlay/Overlay.styled';
-import { CloseButton } from '../../components/Buttons/Buttons.styled';
-import { FormContainer, Button } from '../../components/Form/Form.styled';
+import { Modal, ModalContent } from '../../components/styles/Modal.styled';
+import Overlay from '../../components/styles/Overlay.styled';
+import { CloseButton } from '../../components/styles/Buttons.styled';
+import { FormContainer, Button } from '../../components/styles/Form.styled';
 import { RootState } from '../../store';
 
 function Crud(): JSX.Element {
@@ -17,7 +17,7 @@ function Crud(): JSX.Element {
   const token = useSelector((state: RootState) => state.auth.token);
   const sellerId = useSelector((state: RootState) => state.auth.idSeller);
 
-  const { loading, error, data, refetch } = useQuery<{ productsBySellerId: Product[] }>(
+  const { loading, error, data, refetch } = useQuery<{ productsBySellerId: IProduct[] }>(
     GET_PRODUCTS_BY_SELLER_ID,
     {
       variables: { sellerId },
@@ -25,7 +25,7 @@ function Crud(): JSX.Element {
   );
 
   const [isFormOpen, setFormOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
 
   const updateProductList = () => {
     refetch();
@@ -44,7 +44,7 @@ function Crud(): JSX.Element {
     clearForm();
   };
 
-  const handleEditProduct = (product: Product | null) => {
+  const handleEditProduct = (product: IProduct | null) => {
     setSelectedProduct(product);
     setFormOpen(true);
   };

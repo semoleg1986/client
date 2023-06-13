@@ -1,4 +1,4 @@
-export interface Product {
+export interface IProduct {
   id: string;
   name: string;
   description: string;
@@ -10,7 +10,7 @@ export interface Product {
   };
 }
 
-export interface Order {
+export interface IOrder {
   id: string;
   receiptNumber: string;
   name: string;
@@ -19,13 +19,53 @@ export interface Order {
   address: string;
   status: string;
   updateDate: string;
-  orderitemSet: OrderItem[];
+  orderitemSet: IOrderItem[];
 }
 
-export interface OrderItem {
+export interface IOrderItem {
   product: {
     name: string;
     price: number;
   };
   quantity: number;
+}
+
+export interface IAuthState {
+  isAuthenticated: boolean;
+  token: string | null;
+  idSeller: string | null;
+}
+
+export interface IFormProps {
+  updateProductList: () => void;
+  handleEditProduct: (product: IProduct | null) => void;
+  selectedProduct: IProduct | null;
+}
+
+export type TCardsProps = {
+  products: IProduct[];
+  updateProductList: () => void;
+  onEditProduct: (product: IProduct) => void;
+};
+
+export type TCardProps = {
+  product: IProduct;
+  updateProductList: () => void;
+  onEditProduct: (product: IProduct) => void;
+};
+
+export interface ILoginData {
+  username: string;
+  password: string;
+}
+
+export interface ILoginUserResponse {
+  loginUser: {
+    token: string;
+    user: {
+      sellerProfile: {
+        id: string;
+      };
+    };
+  };
 }

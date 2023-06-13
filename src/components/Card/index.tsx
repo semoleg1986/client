@@ -1,19 +1,12 @@
-import React from 'react';
 import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
-import { Product } from '../../types';
-import CardStyle from './Card.styled';
+import { TCardProps } from '../../types';
+import CardStyle from '../styles/Card.styled';
 import { DELETE_PRODUCT } from '../../graphql/mutation/product';
 import 'react-toastify/dist/ReactToastify.css';
-import { DeleteButton, EditButton } from '../Buttons/Buttons.styled';
+import { DeleteButton, EditButton } from '../styles/Buttons.styled';
 
-type CardProps = {
-  product: Product;
-  updateProductList: () => void;
-  onEditProduct: (product: Product) => void;
-};
-
-function Card({ product, onEditProduct, updateProductList }: CardProps) {
+function Card({ product, onEditProduct, updateProductList }: TCardProps) {
   const [deleteProduct] = useMutation(DELETE_PRODUCT);
   const handleDeleteProduct = async () => {
     try {

@@ -4,19 +4,13 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { GET_CATEGORIES, CREATE_CATEGORY } from '../../graphql/mutation/category';
 import { CREATE_PRODUCT, EDIT_PRODUCT } from '../../graphql/mutation/product';
-import { FormContainer, Input, Button, Select } from './Form.styled';
-import { Product } from '../../types';
+import { FormContainer, Input, Button, Select } from '../styles/Form.styled';
+import { IFormProps } from '../../types';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { RootState } from '../../store';
 
-interface FormProps {
-  updateProductList: () => void;
-  handleEditProduct: (product: Product | null) => void;
-  selectedProduct: Product | null;
-}
-
-function Form({ updateProductList, handleEditProduct, selectedProduct }: FormProps) {
+function Form({ updateProductList, handleEditProduct, selectedProduct }: IFormProps) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');

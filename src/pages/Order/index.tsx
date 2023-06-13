@@ -4,7 +4,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { ORDER_BY_SELLER_ID, UPDATE_ORDER } from '../../graphql/mutation/order';
 import { RootState } from '../../store';
 import './order.css';
-import { Order, OrderItem } from '../../types';
+import { IOrder, IOrderItem } from '../../types';
 
 function OrderList() {
   const sellerId = useSelector((state: RootState) => state.auth.idSeller);
@@ -47,6 +47,7 @@ function OrderList() {
         // Dispatch an action to update the order status in the Redux store
         dispatch({ type: 'UPDATE_ORDER_STATUS', payload: { orderId, newStatus } });
         console.log('Order status updated successfully');
+        console.log(response);
       })
       .catch((err) => {
         console.error('Error updating order status:', err);
@@ -67,11 +68,11 @@ function OrderList() {
     return <p>No orders available.</p>;
   }
 
-  const archiveOrders = orders.filter((order: Order) => order.status === 'Выполнен');
-  const activeOrders = orders.filter((order: Order) => order.status !== 'Выполнен');
+  const archiveOrders = orders.filter((order: IOrder) => order.status === 'Выполнен');
+  const activeOrders = orders.filter((order: IOrder) => order.status !== 'Выполнен');
 
-  const renderOrderDetails = (order: Order) => {
-    const calculateTotalAmount = (orderItems: OrderItem[]) => {
+  const renderOrderDetails = (order: IOrder) => {
+    const calculateTotalAmount = (orderItems: IOrderItem[]) => {
       let total = 0;
       orderItems.forEach((item) => {
         total += item.product.price * item.quantity;
@@ -100,7 +101,7 @@ function OrderList() {
     return (
       <div>
         <h4>Active Orders</h4>
-        {activeOrders.map((order: Order) => (
+        {activeOrders.map((order: IOrder) => (
           <div key={order.id} className="order-item">
             <p className="order-info">Receipt Number: {order.receiptNumber}</p>
             <p className="order-info">Name: {order.name}</p>
@@ -136,7 +137,7 @@ function OrderList() {
     return (
       <div>
         <h4>Archive Orders</h4>
-        {archiveOrders.map((order: Order) => (
+        {archiveOrders.map((order: IOrder) => (
           <div key={order.id} className="order-item">
             <p className="order-info">Receipt Number: {order.receiptNumber}</p>
             <p className="order-info">Name: {order.name}</p>

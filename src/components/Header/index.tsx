@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../store';
 import { ROOT_PAGE, ORDER_PAGE, CRUD_PAGE } from '../../routes';
-import { HeaderStyled, CustomNavLink } from './Header.styled';
+import { HeaderStyled, CustomNavLink } from '../styles/Header.styled';
 import { logoutUser } from '../../store/authSlice';
 
 function Header() {

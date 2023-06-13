@@ -1,26 +1,10 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LOGIN_USER } from '../../../graphql/mutation/auth';
 import { ROOT_PAGE } from '../../../routes';
 import { loginUser } from '../../../store/authSlice';
-
-interface LoginData {
-  username: string;
-  password: string;
-}
-
-interface LoginUserResponse {
-  loginUser: {
-    token: string;
-    user: {
-      sellerProfile: {
-        id: string;
-      };
-    };
-  };
-}
 
 function Login() {
   const [username, setUsername] = useState('');

@@ -1,15 +1,8 @@
-import React from 'react';
-import { Product } from '../../types';
+import { TCardsProps } from '../../types';
 import Card from '../Card';
-import CardsStyle from './Cards.styled';
+import CardsStyle from '../styles/Cards.styled';
 
-type CardsProps = {
-  updateProductList: () => void;
-  products: Product[];
-  onEditProduct: (product: Product) => void;
-};
-
-function Cards({ products, onEditProduct, updateProductList }: CardsProps) {
+function Cards({ products, onEditProduct, updateProductList }: TCardsProps) {
   return (
     <CardsStyle>
       {products.map((product) => (

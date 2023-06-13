@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button } from '../../components/Form/Form.styled';
+import { Button } from '../../components/styles/Form.styled';
 import { SIGN_IN, SIGN_UP } from '../../routes';
 import { RootState } from '../../store';
 
