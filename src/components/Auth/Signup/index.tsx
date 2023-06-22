@@ -7,7 +7,6 @@ import { Button, FormContainer, Input } from '../../styles/Form.styled';
 function Signup() {
   const [createUser] = useMutation(CREATE_USER);
   const [createSeller] = useMutation(CREATE_SELLER);
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [showSellerFields, setShowSellerFields] = useState(false);
@@ -21,7 +20,7 @@ function Signup() {
     try {
       if (!showSellerFields) {
         const { data } = await createUser({
-          variables: { email, password, username },
+          variables: { password, username },
         });
         const createdUserId = data.createUser.user.id;
         setUserId(createdUserId);
@@ -60,22 +59,16 @@ function Signup() {
         {!showSellerFields && (
           <>
             <Input
-              type="email"
-              placeholder="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <Input
               type="password"
               placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </>
         )}

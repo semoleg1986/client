@@ -112,7 +112,9 @@ export const GET_STATUSES = gql`
 export const UPDATE_STATUS = gql`
   mutation UpdateOrderStatus($orderId: ID!, $status: String!) {
     updateOrderStatus(orderId: $orderId, status: $status) {
-      status
+      order {
+        status
+      }
     }
   }
 `;
